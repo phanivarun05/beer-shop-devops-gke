@@ -172,9 +172,53 @@ services:
 
   #cart:
 
-  #user:
+  user:
+    build:
+      context: ../
+      dockerfile: docker/generic/Dockerfile
+      args:
+        SERVICE_PATH: user/service
 
-  #order:
+    restart: unless-stopped
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      consul:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+
+    networks:
+      - beer-shop-network
+
+  order:
+    build:
+      context: ../
+      dockerfile: docker/generic/Dockerfile
+      args:
+        SERVICE_PATH: order/service
+
+    restart: unless-stopped
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      consul:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+
+    networks:
+      - beer-shop-network
 
   #payment:
 
