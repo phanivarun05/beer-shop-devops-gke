@@ -28,6 +28,8 @@ RUN go build -o /app/server ./app/${SERVICE_PATH}/cmd/server
 
 FROM alpine:3.22
 
+RUN apk add --no-cache ca-certificates
+
 # Set the Build Arguments
 ARG SERVICE_PATH=catalog/service
 
@@ -41,8 +43,10 @@ COPY --from=builder /app/server .
 COPY --from=builder /app/app/${SERVICE_PATH}/configs ./configs
 
 # (Optional) Create non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 # (Optional) Switch to non-root user
+USER appuser
 
 # Expose application port (optional)
 # EXPOSE 8000

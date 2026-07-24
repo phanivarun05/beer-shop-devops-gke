@@ -7,7 +7,8 @@ services:
     restart: unless-stopped
 
     environment:
-      MYSQL_ROOT_PASSWORD: beermysql
+      MYSQL_ROOT_PASSWORD: dangerous
+      MYSQL_DATABASE: test
 
     ports:
       - "3306:3306"
@@ -19,7 +20,7 @@ services:
       - beer-shop-network
 
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pbeermysql"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pdangerous"]
       interval: 1m30s
       timeout: 30s
       retries: 5
@@ -144,7 +145,30 @@ services:
       start_period: 30s
 
 #backend
-  #catalog:
+  catalog:
+    build:
+     context: ../
+     dockerfile: docker/generic/Dockerfile
+     args:
+       SERVICE_PATH: catalog/service
+
+    restart: unless-stopped
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      consul:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
+      kafka:
+        condition: service_started  
+
+    networks:
+      - beer-shop-network
+
 
   #cart:
 
