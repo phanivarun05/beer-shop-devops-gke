@@ -1,5 +1,5 @@
 trace:
-  endpoint: http://127.0.0.1:14268/api/traces
+  endpoint: http://jaeger:14268/api/traces
 server:
   http:
     addr: 0.0.0.0:0
@@ -9,5 +9,5 @@ server:
     timeout: 1s
 data:
   mongodb:
-    uri: "mongodb://localhost:27017/"
+    uri: "mongodb://mongodb:27017/"
     database: "cart-db"

@@ -170,7 +170,25 @@ services:
       - beer-shop-network
 
 
-  #cart:
+  cart:
+    build:
+      context: ../
+      dockerfile: docker/generic/Dockerfile
+      args:
+        SERVICE_PATH: cart/service
+
+    restart: unless-stopped
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      consul:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
+
+    networks:
+      - beer-shop-network
 
   user:
     build:
@@ -220,11 +238,71 @@ services:
     networks:
       - beer-shop-network
 
-  #payment:
+  payment:
+    build:
+      context: ../
+      dockerfile: docker/generic/Dockerfile
+      args:
+        SERVICE_PATH: payment/service
 
-  #shipping:
+    restart: unless-stopped
 
-  #courier:
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      consul:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+
+    networks:
+      - beer-shop-network
+
+  shipping:
+    build:
+      context: ../
+      dockerfile: docker/generic/Dockerfile
+      args:
+        SERVICE_PATH: shipping/service
+
+    restart: unless-stopped
+
+    depends_on:
+      consul:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+
+    networks:
+      - beer-shop-network
+
+  courier:
+    build:
+      context: ../
+      dockerfile: docker/generic/Dockerfile
+      args:
+        SERVICE_PATH: courier/job
+
+    restart: unless-stopped
+
+    depends_on:
+      consul:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+      order:
+        condition: service_started
+
+    networks:
+      - beer-shop-network
 
 #frontend
   #shop-interface:
