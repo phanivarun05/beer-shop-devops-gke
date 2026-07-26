@@ -305,9 +305,77 @@ services:
       - beer-shop-network
 
 #frontend
-  #shop-interface:
+  shop-interface:
+    build:
+      context: ../
+      dockerfile: docker/generic/Dockerfile
+      args:
+        SERVICE_PATH: shop/interface
 
-  #shop-admin:
+    restart: unless-stopped
+
+    depends_on:
+      catalog:
+        condition: service_started
+      cart:
+        condition: service_started
+      user:
+        condition: service_started
+      order:
+        condition: service_started
+      payment:
+        condition: service_started
+      shipping:
+        condition: service_started
+      courier:
+        condition: service_started
+      consul:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
+
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+
+    networks:
+      - beer-shop-network
+
+  shop-admin:
+    build:
+      context: ../
+      dockerfile: docker/generic/Dockerfile
+      args:
+        SERVICE_PATH: shop/admin
+
+    restart: unless-stopped
+
+    depends_on:
+      catalog:
+        condition: service_started
+      cart:
+        condition: service_started
+      user:
+        condition: service_started
+      order:
+        condition: service_started
+      payment:
+        condition: service_started
+      shipping:
+        condition: service_started
+      courier:
+        condition: service_started
+      consul:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
+
+    ports:
+      - "8001:8000"
+      - "9001:9000"
+
+    networks:
+      - beer-shop-network
 
 networks:
   beer-shop-network:
