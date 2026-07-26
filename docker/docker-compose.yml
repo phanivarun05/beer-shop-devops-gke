@@ -376,7 +376,50 @@ services:
 
     networks:
       - beer-shop-network
+#webui
+  shop:
+    build:
+      context: ../
+      dockerfile: docker/frontend/Dockerfile
+      args:
+        APP_PATH: shop
+        REACT_APP_API_URL: http://localhost:8000
 
+    restart: unless-stopped
+
+    depends_on:
+      shop-interface:
+        condition: service_started
+      shop-admin:
+        condition: service_started
+
+    ports:
+      - "3000:80"
+
+    networks:
+      - beer-shop-network
+
+  admin:
+    build:
+      context: ../
+      dockerfile: docker/frontend/Dockerfile
+      args:
+        APP_PATH: admin
+        REACT_APP_API_URL: http://localhost:8001
+
+    restart: unless-stopped
+
+    depends_on:
+      shop-interface:
+        condition: service_started
+      shop-admin:
+        condition: service_started
+
+    ports:
+      - "3001:80"
+
+    networks:
+      - beer-shop-network
 networks:
   beer-shop-network:
     driver: bridge

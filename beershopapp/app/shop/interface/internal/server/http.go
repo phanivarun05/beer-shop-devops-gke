@@ -2,7 +2,8 @@ package server
 
 import (
 	"context"
-	"github.com/go-kratos/beer-shop/api/shop/interface/v1"
+
+	v1 "github.com/go-kratos/beer-shop/api/shop/interface/v1"
 	"github.com/go-kratos/beer-shop/app/shop/interface/internal/conf"
 	"github.com/go-kratos/beer-shop/app/shop/interface/internal/service"
 	"github.com/go-kratos/kratos/v2/log"
@@ -21,8 +22,15 @@ import (
 func NewWhiteListMatcher() selector.MatchFunc {
 
 	whiteList := make(map[string]struct{})
+
+	// Public endpoints
 	whiteList["/shop.interface.v1.ShopInterface/Login"] = struct{}{}
 	whiteList["/shop.interface.v1.ShopInterface/Register"] = struct{}{}
+
+	// Public catalog browsing
+	whiteList["/shop.interface.v1.ShopInterface/ListBeer"] = struct{}{}
+	whiteList["/shop.interface.v1.ShopInterface/GetBeer"] = struct{}{}
+
 	return func(ctx context.Context, operation string) bool {
 		if _, ok := whiteList[operation]; ok {
 			return false

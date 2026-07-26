@@ -2,9 +2,8 @@ import axios from 'axios';
 import {getToken} from "../auth";
 
 const service = axios.create({
-    baseURL: process.env.NODE_ENV=== "production" ? "//beer.go-kratos.dev" : "//localhost:8000",
-    timeout: 1000,
-});
+    baseURL: process.env.REACT_APP_API_URL || "//localhost:8000",
+})
 
 service.interceptors.request.use(config => {
     if (getToken()) {
