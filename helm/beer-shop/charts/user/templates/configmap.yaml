@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: {{ include "user.fullname" . }}
+  labels:
+    {{- include "user.labels" . | nindent 4 }}
+
+data:
+
+  config.yaml: |
+    trace:
+      endpoint: {{ .Values.config.trace.endpoint }}
+
+    server:
+      http:
+        addr: 0.0.0.0:0
+        timeout: 1s
+
+      grpc:
+        addr: 0.0.0.0:{{ .Values.service.grpcPort }}
+        timeout: 1s
+
+    data:
+      database:
+        driver: {{ .Values.config.database.driver }}
+        source: {{ .Values.config.database.source | quote }}
+
+      redis:
+        addr: {{ .Values.config.redis.addr }}
+        read_timeout: {{ .Values.config.redis.readTimeout }}
+        write_timeout: {{ .Values.config.redis.writeTimeout }}
+
+  registry.yaml: |
+    consul:
+      address: {{ .Values.registry.consul.address }}
+      scheme: {{ .Values.registry.consul.scheme }}
