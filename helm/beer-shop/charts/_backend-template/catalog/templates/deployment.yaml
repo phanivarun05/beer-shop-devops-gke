@@ -1,59 +1,54 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mysql.fullname" . }}
+  name: {{ include "catalog.fullname" . }}
   labels:
-    {{- include "mysql.labels" . | nindent 4 }}
+    {{- include "catalog.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "mysql.selectorLabels" . | nindent 6 }}
+      {{- include "catalog.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "mysql.selectorLabels" . | nindent 8 }}
+        {{- include "catalog.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "mysql.fullname" . }}
-                  key: mysql-root-password
-            - name: MYSQL_DATABASE
-              value: {{ .Values.mysql.database | quote }}
           ports:
-            - containerPort: {{ .Values.service.port }}
-              protocol: TCP
+          {{- range .Values.service.ports }}
+            - name: {{ .name }}
+              containerPort: {{ .targetPort }}
+          {{- end }}
           volumeMounts:
-            - name: mysql-data
-              mountPath: /var/lib/mysql
+            - name: config
+              mountPath: /app/configs
+              readOnly: true
           {{- with .Values.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           livenessProbe:
             tcpSocket:
-              port: {{ .Values.service.port }}
+              port: {{ (index .Values.service.ports 0).targetPort }}
             initialDelaySeconds: {{ .Values.healthcheck.initialDelaySeconds }}
             periodSeconds: {{ .Values.healthcheck.periodSeconds }}
             timeoutSeconds: {{ .Values.healthcheck.timeoutSeconds }}
             failureThreshold: {{ .Values.healthcheck.failureThreshold }}
           readinessProbe:
             tcpSocket:
-              port: {{ .Values.service.port }}
+              port: {{ (index .Values.service.ports 0).targetPort }}
             initialDelaySeconds: {{ .Values.healthcheck.initialDelaySeconds }}
             periodSeconds: {{ .Values.healthcheck.periodSeconds }}
             timeoutSeconds: {{ .Values.healthcheck.timeoutSeconds }}
             failureThreshold: {{ .Values.healthcheck.failureThreshold }}
       volumes:
-        - name: mysql-data
-          persistentVolumeClaim:
-            claimName: {{ include "mysql.fullname" . }}
+        - name: config
+          configMap:
+            name: {{ include "catalog.fullname" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -1,4 +1,4 @@
-# Default values for mysql.
+# Default values for {service}
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -7,12 +7,11 @@ replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: mysql
+  repository: 
   # This sets the pull policy for images.
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "8.4"
-
+  tag: ""
 
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
@@ -20,36 +19,25 @@ service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 3306
+  ports:
+    - name: grpc
+      port: 9000
+      targetPort: 9000
 
-auth:
-  # This sets the root password for the mysql database more information can be found here: https://hub.docker.com/_/mysql
-  rootPassword: "dangerous"
+applicationConfig: ""
 
-persistence:
-  # This sets the persistence for the mysql database more information can be found here: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
-  enabled: true
-  # This sets the storage class for the mysql database more information can be found here: https://kubernetes.io/docs/concepts/storage/persistent-volumes/#class
-  storageClass: ""
-  # This sets the access mode for the mysql database more information can be found here: https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
-  accessMode: ReadWriteOnce
-  # This sets the size of the mysql database more information can be found here: https://kubernetes.io/docs/concepts/storage/persistent-volumes/#capacity
-  size: 5Gi
-
-
-mysql:
-  rootPassword: dangerous
-
-  database: test
+registryConfig: |
+  consul:
+    address: consul:8500
+    scheme: http
 
 resources:
   requests:
-    cpu: 250m
-    memory: 256Mi
-
+    cpu: 100m
+    memory: 128Mi
   limits:
     cpu: 500m
-    memory: 512Mi
+    memory: 256Mi
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -62,11 +50,10 @@ resources:
   #   memory: 128Mi
 
 healthcheck:
-  initialDelaySeconds: 30
+  initialDelaySeconds: 15
   periodSeconds: 10
   timeoutSeconds: 5
-  failureThreshold: 6
-
+  failureThreshold: 5
 
 nodeSelector: {}
 
