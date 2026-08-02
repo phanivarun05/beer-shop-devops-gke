@@ -7,11 +7,11 @@ replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: 
+  repository: docker.io/phanivarun/beer-shop-shop-interface
   # This sets the pull policy for images.
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "latest"
 
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
@@ -21,8 +21,8 @@ service:
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
   ports:
     - name: http
-      port: 8080
-      targetPort: 8080
+      port: 8000
+      targetPort: 8000
       protocol: TCP
       
     - name: grpc
@@ -31,7 +31,32 @@ service:
       protocol: TCP
 
 configs:
-  application: ""
+  application: |
+    trace:
+      endpoint: http://jaeger:14268/api/traces
+
+    server:
+      http:
+        addr: 0.0.0.0:8000
+        timeout: 1s
+
+      grpc:
+        addr: 0.0.0.0:9000
+        timeout: 1s
+
+    data:
+      database:
+        driver: mysql
+        source: root:dangerous@tcp(mysql:3306)/test?parseTime=true
+
+      redis:
+        addr: redis:6379
+        readTimeout: 0.2s
+        writeTimeout: 0.2s
+
+    auth:
+      service_key: some-secret-key
+      api_key: some-secret-key-for-forntend
 
   registry: |
     consul:
@@ -57,6 +82,7 @@ resources:
   #   memory: 128Mi
 
 healthcheck:
+  port: grpc
   initialDelaySeconds: 15
   periodSeconds: 10
   timeoutSeconds: 5
