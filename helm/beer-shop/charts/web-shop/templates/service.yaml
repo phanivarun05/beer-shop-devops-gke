@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: {{ include "web-shop.fullname" . }}
+  labels:
+    {{- include "web-shop.labels" . | nindent 4 }}
+
+spec:
+  type: {{ .Values.service.type }}
+
+  selector:
+    {{- include "web-shop.selectorLabels" . | nindent 4 }}
+
+  ports:
+  {{- range .Values.service.ports }}
+    - name: {{ .name }}
+      port: {{ .port }}
+      targetPort: {{ .targetPort }}
+  {{- end }}
