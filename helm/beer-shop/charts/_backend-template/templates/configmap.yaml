@@ -9,8 +9,7 @@ metadata:
 data:
 
   config.yaml: |
-    {{- toYaml .Values.applicationConfig | nindent 4 }}
+{{ .Values.configs.application | indent 4 }}
 
   registry.yaml: |
-    {{- toYaml .Values.registryConfig | nindent 4 }}
-    
+{{ .Values.configs.registry | indent 4 }}

@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "catalog.fullname" . }}
+  name: {{ include "order.fullname" . }}
   labels:
-    {{- include "catalog.labels" . | nindent 4 }}
+    {{- include "order.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "catalog.selectorLabels" . | nindent 6 }}
+      {{- include "order.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "catalog.selectorLabels" . | nindent 8 }}
+        {{- include "order.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -22,6 +22,7 @@ spec:
           {{- range .Values.service.ports }}
             - name: {{ .name }}
               containerPort: {{ .targetPort }}
+              protocol: {{ .protocol }}
           {{- end }}
           volumeMounts:
             - name: config
@@ -48,7 +49,7 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: {{ include "catalog.fullname" . }}
+            name: {{ include "order.fullname" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

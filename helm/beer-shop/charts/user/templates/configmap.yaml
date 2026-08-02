@@ -14,7 +14,7 @@ data:
 
     server:
       http:
-        addr: 0.0.0.0:0
+        addr: 0.0.0.0:8000
         timeout: 1s
 
       grpc:

@@ -23,13 +23,15 @@ service:
     - name: grpc
       port: 9000
       targetPort: 9000
+      protocol: TCP
 
-applicationConfig: ""
+configs:
+  application: ""
 
-registryConfig: |
-  consul:
-    address: consul:8500
-    scheme: http
+  registry: |
+    consul:
+      address: consul:8500
+      scheme: http
 
 resources:
   requests:
