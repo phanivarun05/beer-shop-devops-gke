@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: {{ include "cart.fullname" . }}
+  labels:
+    {{- include "cart.labels" . | nindent 4 }}
+
+data:
+
+  config.yaml: |
+{{ .Values.configs.application | indent 4 }}
+
+  registry.yaml: |
+{{ .Values.configs.registry | indent 4 }}
