@@ -62,10 +62,20 @@ shop-admin:
 	$(HELM) upgrade --install shop-admin $(CHART_DIR)/shop-admin -n $(NAMESPACE)
 
 # ============================================================
+# Front-end React apps
+# ============================================================
+
+web-shop:
+	$(HELM) upgrade --install web-shop $(CHART_DIR)/web-shop -n $(NAMESPACE)
+
+web-admin:
+	$(HELM) upgrade --install web-admin $(CHART_DIR)/web-admin -n $(NAMESPACE)
+
+# ============================================================
 # Full Deployment
 # ============================================================
 
-all: infra catalog user payment order cart shipping courier shop-interface shop-admin
+all: infra catalog user payment order cart shipping courier shop-interface shop-admin web-shop web-admin
 
 # ============================================================
 # Utilities
@@ -137,7 +147,11 @@ clean-infra:
 	-helm uninstall redis -n $(NAMESPACE)
 	-helm uninstall mysql -n $(NAMESPACE)
 
-clean: clean-app clean-infra
+clean-web:
+	-helm uninstall web-shop -n $(NAMESPACE)
+	-helm uninstall web-admin -n $(NAMESPACE)
+
+clean: clean-app clean-infra clean-web
 
 # ============================================================
 # Helm Validation
