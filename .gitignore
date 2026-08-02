@@ -136,3 +136,6 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/go,jetbrains,vscode
 .idea/*
+
+# Ignore all chart packages
+helm/beer-shop/charts/*.tgz

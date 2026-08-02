@@ -1,24 +1,79 @@
 apiVersion: v2
 name: beer-shop
-description: A Helm chart for Kubernetes
-
-# A chart can be either an 'application' or a 'library' chart.
-#
-# Application charts are a collection of templates that can be packaged into versioned archives
-# to be deployed.
-#
-# Library charts provide useful utilities or functions for the chart developer. They're included as
-# a dependency of application charts to inject those utilities and functions into the rendering
-# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+description: Helm Umbrella Chart for Beer Shop Microservices Platform
 type: application
 
-# This is the chart version. This version number should be incremented each time you make changes
-# to the chart and its templates, including the app version.
-# Versions are expected to follow Semantic Versioning (https://semver.org/)
 version: 0.1.0
+appVersion: "1.0.0"
 
-# This is the version number of the application being deployed. This version number should be
-# incremented each time you make changes to the application. Versions are not expected to
-# follow Semantic Versioning. They should reflect the version the application is using.
-# It is recommended to use it with quotes.
-appVersion: "1.16.0"
+dependencies:
+  # Infrastructure
+  - name: mysql
+    version: 0.1.0
+    repository: "file://charts/mysql"
+
+  - name: redis
+    version: 0.1.0
+    repository: "file://charts/redis"
+
+  - name: mongodb
+    version: 0.1.0
+    repository: "file://charts/mongodb"
+
+  - name: kafka
+    version: 0.1.0
+    repository: "file://charts/kafka"
+
+  - name: consul
+    version: 0.1.0
+    repository: "file://charts/consul"
+
+  - name: jaeger
+    version: 0.1.0
+    repository: "file://charts/jaeger"
+
+  # Backend Microservices
+  - name: catalog
+    version: 0.1.0
+    repository: "file://charts/catalog"
+
+  - name: user
+    version: 0.1.0
+    repository: "file://charts/user"
+
+  - name: payment
+    version: 0.1.0
+    repository: "file://charts/payment"
+
+  - name: order
+    version: 0.1.0
+    repository: "file://charts/order"
+
+  - name: shipping
+    version: 0.1.0
+    repository: "file://charts/shipping"
+
+  - name: courier
+    version: 0.1.0
+    repository: "file://charts/courier"
+
+  - name: cart
+    version: 0.1.0
+    repository: "file://charts/cart"
+
+  - name: shop-interface
+    version: 0.1.0
+    repository: "file://charts/shop-interface"
+
+  - name: shop-admin
+    version: 0.1.0
+    repository: "file://charts/shop-admin"
+
+  # Frontend
+  - name: web-shop
+    version: 0.1.0
+    repository: "file://charts/web-shop"
+
+  - name: web-admin
+    version: 0.1.0
+    repository: "file://charts/web-admin"
