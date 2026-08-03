@@ -1,0 +1,73 @@
+# ==========================================================
+# Development Environment (Kind)
+# ==========================================================
+
+global:
+  namespace: beer-shop
+
+  imagePullPolicy: Always
+
+  storageClass: standard
+
+# ==========================================================
+# Infrastructure
+# ==========================================================
+
+mysql:
+  replicaCount: 1
+
+redis:
+  replicaCount: 1
+
+mongodb:
+  replicaCount: 1
+
+kafka:
+  replicaCount: 1
+
+consul:
+  replicaCount: 1
+
+jaeger:
+  replicaCount: 1
+
+# ==========================================================
+# Backend Services
+# ==========================================================
+
+catalog:
+  replicaCount: 1
+
+user:
+  replicaCount: 1
+
+payment:
+  replicaCount: 1
+
+order:
+  replicaCount: 1
+
+shipping:
+  replicaCount: 1
+
+courier:
+  replicaCount: 1
+
+cart:
+  replicaCount: 1
+
+shop-interface:
+  replicaCount: 1
+
+shop-admin:
+  replicaCount: 1
+
+# ==========================================================
+# Frontend
+# ==========================================================
+
+shop:
+  replicaCount: 1
+
+admin:
+  replicaCount: 1

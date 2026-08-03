@@ -194,3 +194,13 @@ help:
 	@echo "Cleanup:"
 	@echo "  make -f Makefile.helm clean"
 	@echo ""
+
+# ============================================================
+# Install Beer-shop
+# ============================================================
+
+install-beer-shop:
+	helm upgrade --install beer-shop \
+	helm/beer-shop \
+	-f helm/beer-shop/values-dev.yaml \
+	-n beer-shop
