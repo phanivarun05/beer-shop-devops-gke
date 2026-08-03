@@ -1,0 +1,90 @@
+# ==========================================================
+# Production Environment (GKE)
+# ==========================================================
+
+global:
+  namespace: beer-shop
+
+  imagePullPolicy: IfNotPresent
+
+  storageClass: standard-rwo
+
+# ==========================================================
+# Infrastructure
+# ==========================================================
+
+mysql:
+  enabled: true
+  replicaCount: 1
+
+redis:
+  enabled: true
+  replicaCount: 1
+
+mongodb:
+  enabled: true
+  replicaCount: 1
+
+kafka:
+  enabled: true
+  replicaCount: 1
+
+consul:
+  enabled: true
+  replicaCount: 3
+
+jaeger:
+  enabled: true
+  replicaCount: 1
+
+# ==========================================================
+# Backend Services
+# ==========================================================
+
+catalog:
+  enabled: true
+  replicaCount: 3
+
+user:
+  enabled: true
+  replicaCount: 3
+
+payment:
+  enabled: true
+  replicaCount: 3
+
+order:
+  enabled: true
+  replicaCount: 3
+
+shipping:
+  enabled: true
+  replicaCount: 2
+
+courier:
+  enabled: true
+  replicaCount: 2
+
+cart:
+  enabled: true
+  replicaCount: 3
+
+shop-interface:
+  enabled: true
+  replicaCount: 3
+
+shop-admin:
+  enabled: true
+  replicaCount: 2
+
+# ==========================================================
+# Frontend
+# ==========================================================
+
+shop:
+  enabled: true
+  replicaCount: 3
+
+admin:
+  enabled: true
+  replicaCount: 2

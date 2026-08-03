@@ -50,5 +50,5 @@ dependencies:
 - name: web-admin
   repository: file://charts/web-admin
   version: 0.1.0
-digest: sha256:1dc70a6fc0fed3fff24a5f1eed12a6da643423978b581e20d251f2e1964775b3
-generated: "2026-08-02T15:00:17.455431715Z"
+digest: sha256:a424caa78177bc76f00b9d1065aa0a3747b255001c65b264437c126e696c3905
+generated: "2026-08-03T15:50:10.050234467Z"
