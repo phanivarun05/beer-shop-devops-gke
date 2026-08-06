@@ -13,6 +13,7 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "1.76.0"
 
+fullnameOverride: "jaeger"
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
 service:

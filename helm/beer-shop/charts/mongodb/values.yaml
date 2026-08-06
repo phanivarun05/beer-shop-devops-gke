@@ -22,7 +22,7 @@ service:
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
   port: 27017
 
-
+fullnameOverride: "mongodb"
 
 persistence:
   # This sets the persistence for the mongodb database more information can be found here: https://kubernetes.io/docs/concepts/storage/persistent-volumes/

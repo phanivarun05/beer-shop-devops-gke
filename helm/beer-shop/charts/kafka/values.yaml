@@ -13,6 +13,8 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "3.9.1"
 
+fullnameOverride: "kafka"
+
 kafka:
   nodeId: "1"
   processRoles: "broker,controller"
