@@ -139,3 +139,10 @@ fabric.properties
 
 # Ignore all chart packages
 helm/beer-shop/charts/*.tgz
+
+# terraform
+.terraform/
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+
