@@ -35,7 +35,7 @@ module "nodepool" {
   region   = var.region
   location = var.location
 
-  cluster_name = var.cluster_name
+  cluster_name = module.gke.cluster_name
 
   node_count = var.node_count
 

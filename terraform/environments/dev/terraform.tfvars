@@ -18,7 +18,7 @@ cluster_name = "beer-shop-gke"
 
 node_pool_name = "beer-shop-nodepool"
 
-node_count = 1
+node_count = 2
 
 machine_type = "e2-standard-2"
 
