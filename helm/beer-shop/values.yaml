@@ -67,8 +67,8 @@ shop-admin:
 # Frontend
 # ==========================================================
 
-shop:
+web-shop:
   enabled: true
 
-admin:
+web-admin:
   enabled: true

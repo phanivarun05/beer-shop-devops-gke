@@ -9,6 +9,10 @@ global:
 
   storageClass: standard-rwo
 
+  environment:
+    name: production
+    type: production
+
 # ==========================================================
 # Infrastructure
 # ==========================================================
@@ -81,10 +85,10 @@ shop-admin:
 # Frontend
 # ==========================================================
 
-shop:
+web-shop:
   enabled: true
   replicaCount: 3
 
-admin:
+web-admin:
   enabled: true
   replicaCount: 2

@@ -202,5 +202,16 @@ help:
 install-beer-shop:
 	helm upgrade --install beer-shop \
 	helm/beer-shop \
+	-n beer-shop
+
+install-beer-shop-dev:
+	helm upgrade --install beer-shop \
+	helm/beer-shop \
 	-f helm/beer-shop/values-dev.yaml \
+	-n beer-shop
+
+install-beer-shop-prod:
+	helm upgrade --install beer-shop \
+	helm/beer-shop \
+	-f helm/beer-shop/values-prod.yaml \
 	-n beer-shop

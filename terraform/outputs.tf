@@ -14,6 +14,3 @@ output "cluster_endpoint" {
   value = module.gke.endpoint
 }
 
-output "network_name" {
-  value = module.network.network_name
-}
