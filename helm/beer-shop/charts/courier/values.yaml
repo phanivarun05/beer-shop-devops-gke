@@ -49,6 +49,16 @@ configs:
       address: consul:8500
       scheme: http
 
+initContainers:
+  enabled: true
+
+  dependencies:
+    - name: kafka
+      port: 9092
+
+    - name: consul
+      port: 8500
+
 resources:
   requests:
     cpu: 100m

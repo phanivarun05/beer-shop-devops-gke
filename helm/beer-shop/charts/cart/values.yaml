@@ -50,6 +50,16 @@ configs:
       address: consul:8500
       scheme: http
 
+initContainers:
+  enabled: true
+
+  dependencies:
+    - name: mongodb
+      port: 27017
+
+    - name: consul
+      port: 8500
+
 resources:
   requests:
     cpu: 100m

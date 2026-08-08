@@ -59,6 +59,16 @@ configs:
       address: consul:8500
       scheme: http
 
+initContainers:
+  enabled: true
+
+  dependencies:
+    - name: consul
+      port: 8500
+
+  consulServices:
+    - beer.user.service
+
 resources:
   requests:
     cpu: 100m

@@ -14,6 +14,24 @@ spec:
       labels:
         {{- include "payment.selectorLabels" . | nindent 8 }}
     spec:
+      {{- if .Values.initContainers.enabled }}
+      initContainers:
+        {{- range .Values.initContainers.dependencies }}
+        - name: wait-for-{{ .name }}
+          image: busybox:1.36
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              echo "Waiting for {{ .name }}:{{ .port }}..."
+              until nc -z {{ .name }} {{ .port }}; do
+                echo "{{ .name }}:{{ .port }} is not ready. Retrying..."
+                sleep 2
+              done
+              echo "{{ .name }}:{{ .port }} is ready."
+        {{- end }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

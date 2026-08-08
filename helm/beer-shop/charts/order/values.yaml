@@ -54,6 +54,19 @@ configs:
       address: consul:8500
       scheme: http
 
+initContainers:
+  enabled: true
+
+  dependencies:
+    - name: mysql
+      port: 3306
+
+    - name: redis
+      port: 6379
+
+    - name: consul
+      port: 8500
+
 resources:
   requests:
     cpu: 100m
