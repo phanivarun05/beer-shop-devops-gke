@@ -38,6 +38,11 @@ configs:
       address: consul:8500
       scheme: http
 
+initContainers:
+  enabled: false
+
+  dependencies: []
+  
 resources:
   requests:
     cpu: 100m
