@@ -50,24 +50,33 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- if .Values.startupProbe.enabled }}
+          startupProbe:
+            tcpSocket:
+              port: {{ (index .Values.service.ports 0).targetPort }}
+            initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+          {{- end }}
+          {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
             tcpSocket:
               port: {{ (index .Values.service.ports 0).targetPort }}
-            initialDelaySeconds: {{ .Values.healthcheck.initialDelaySeconds }}
-            periodSeconds: {{ .Values.healthcheck.periodSeconds }}
-            timeoutSeconds: {{ .Values.healthcheck.timeoutSeconds }}
-            failureThreshold: {{ .Values.healthcheck.failureThreshold }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
             tcpSocket:
               port: {{ (index .Values.service.ports 0).targetPort }}
-            initialDelaySeconds: {{ .Values.healthcheck.initialDelaySeconds }}
-            periodSeconds: {{ .Values.healthcheck.periodSeconds }}
-            timeoutSeconds: {{ .Values.healthcheck.timeoutSeconds }}
-            failureThreshold: {{ .Values.healthcheck.failureThreshold }}
-      volumes:
-        - name: config
-          configMap:
-            name: {{ include "payment.fullname" . }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
