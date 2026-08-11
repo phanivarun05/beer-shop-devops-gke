@@ -58,14 +58,14 @@ catalog:
       memory: 256Mi
 
   autoscaling:
-    enabled: false
+    enabled: true
     minReplicas: 2
     maxReplicas: 5
     targetCPUUtilizationPercentage: 70
 
   podDisruptionBudget:
     enabled: true
-    minAvailable: 1
+    minAvailable: 2
 
 user:
   enabled: true
@@ -80,14 +80,14 @@ user:
       memory: 256Mi
 
   autoscaling:
-    enabled: false
+    enabled: true
     minReplicas: 2
     maxReplicas: 5
     targetCPUUtilizationPercentage: 70
 
   podDisruptionBudget:
     enabled: true
-    minAvailable: 1
+    minAvailable: 2
 
 payment:
   enabled: true
@@ -102,98 +102,147 @@ payment:
       memory: 256Mi
 
   autoscaling:
-    enabled: false
+    enabled: true
+
     minReplicas: 2
     maxReplicas: 5
     targetCPUUtilizationPercentage: 70
 
   podDisruptionBudget:
     enabled: true
-    minAvailable: 1
+    minAvailable: 2
 
 order:
   enabled: true
   replicaCount: 3
+  
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
 
   autoscaling:
-    enabled: false
+    enabled: true
     minReplicas: 2
     maxReplicas: 5
     targetCPUUtilizationPercentage: 70
 
   podDisruptionBudget:
     enabled: true
-    minAvailable: 1
+    minAvailable: 2
 
 shipping:
   enabled: true
   replicaCount: 2
+  
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
 
   autoscaling:
-    enabled: false
+    enabled: true
     minReplicas: 2
     maxReplicas: 5
     targetCPUUtilizationPercentage: 70
 
   podDisruptionBudget:
     enabled: true
-    minAvailable: 1
+    minAvailable: 2
 
 courier:
   enabled: true
   replicaCount: 2
+  
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
 
   autoscaling:
-    enabled: false
+    enabled: true
     minReplicas: 2
     maxReplicas: 5
     targetCPUUtilizationPercentage: 70
 
   podDisruptionBudget:
     enabled: true
-    minAvailable: 1
+    minAvailable: 2
 
 cart:
   enabled: true
   replicaCount: 3
+  
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
 
   autoscaling:
-    enabled: false
+    enabled: true
     minReplicas: 2
     maxReplicas: 5
     targetCPUUtilizationPercentage: 70
 
   podDisruptionBudget:
     enabled: true
-    minAvailable: 1
+    minAvailable: 2
 
 shop-interface:
   enabled: true
   replicaCount: 3
-
+  
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+      
   autoscaling:
-    enabled: false
+    enabled: true
     minReplicas: 2
     maxReplicas: 5
     targetCPUUtilizationPercentage: 70
 
   podDisruptionBudget:
     enabled: true
-    minAvailable: 1
+    minAvailable: 2
 
 shop-admin:
   enabled: true
   replicaCount: 2
-
+  
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+      
   autoscaling:
-    enabled: false
+    enabled: true
     minReplicas: 2
     maxReplicas: 5
     targetCPUUtilizationPercentage: 70
 
   podDisruptionBudget:
     enabled: true
-    minAvailable: 1
+    minAvailable: 2
 
 # ==========================================================
 # Frontend

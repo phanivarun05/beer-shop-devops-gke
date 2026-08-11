@@ -82,6 +82,10 @@ readinessProbe:
   timeoutSeconds: 3
   failureThreshold: 3
 
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+  
 nodeSelector: {}
 
 tolerations: []
