@@ -255,3 +255,38 @@ web-shop:
 web-admin:
   enabled: true
   replicaCount: 2
+
+# ==========================================================
+# Ingress
+# ==========================================================
+
+ingress:
+  enabled: true
+
+  className: gce
+
+
+  hosts:
+    - host: shop.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+          service:
+            name: beer-shop-web-shop
+            port: 80
+
+    - host: admin.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+          service:
+            name: beer-shop-web-admin
+            port: 80
+
+    - host: api.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+          service:
+            name: beer-shop-shop-interface
+            port: 8000

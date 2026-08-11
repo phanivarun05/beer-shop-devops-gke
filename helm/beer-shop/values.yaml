@@ -72,3 +72,19 @@ web-shop:
 
 web-admin:
   enabled: true
+
+ingress:
+  enabled: false
+
+  className: gce
+
+  annotations: {}
+
+  hosts:
+    - host: shop.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+          service:
+            name: web-shop
+            port: 80
