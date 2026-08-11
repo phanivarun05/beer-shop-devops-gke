@@ -263,7 +263,8 @@ web-admin:
 ingress:
   enabled: true
 
-  className: gce
+  annotations:
+  kubernetes.io/ingress.class: gce
 
 
   hosts:
