@@ -53,6 +53,14 @@ initContainers:
     - name: consul
       port: 8500
 
+secret:
+  enabled: true
+
+  existingSecret: beer-shop-catalog-config
+
+  keys:
+    config: config.yaml
+
 resources:
   requests:
     cpu: 100m

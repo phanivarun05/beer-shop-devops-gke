@@ -43,6 +43,14 @@ initContainers:
 
   dependencies: []
   
+secret:
+  enabled: true
+
+  existingSecret: beer-shop-catalog-config
+
+  keys:
+    config: config.yaml
+
 resources:
   requests:
     cpu: 100m

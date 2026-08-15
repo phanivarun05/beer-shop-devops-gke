@@ -146,3 +146,4 @@ helm/beer-shop/charts/*.tgz
 *.tfstate
 *.tfstate.backup
 
+local-secrets/
