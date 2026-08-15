@@ -27,7 +27,6 @@ config:
 
   database:
     driver: mysql
-    source: root:dangerous@tcp(mysql:3306)/test?parseTime=true
 
   redis:
     addr: redis:6379
