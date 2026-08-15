@@ -43,7 +43,6 @@ configs:
     data:
       database:
         driver: mysql
-        source: root:dangerous@tcp(mysql:3306)/test?parseTime=true
 
       redis:
         addr: redis:6379
@@ -55,6 +54,13 @@ configs:
       address: consul:8500
       scheme: http
 
+secret:
+  enabled: true
+
+  existingSecret: beer-shop-payment-config
+
+  keys:
+    config: config.yaml
 
 initContainers:
   enabled: true
