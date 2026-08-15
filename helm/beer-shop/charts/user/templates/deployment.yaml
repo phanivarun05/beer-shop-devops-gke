@@ -41,8 +41,21 @@ spec:
               containerPort: {{ .Values.service.grpcPort }}
               protocol: TCP
           volumeMounts:
+            {{- if .Values.secret.enabled }}
+            - name: secret-config
+              mountPath: /app/configs/config.yaml
+              subPath: config.yaml
+              readOnly: true
+            {{- else }}
             - name: config
-              mountPath: /app/configs
+              mountPath: /app/configs/config.yaml
+              subPath: config.yaml
+              readOnly: true
+            {{- end }}
+
+            - name: config
+              mountPath: /app/configs/registry.yaml
+              subPath: registry.yaml
               readOnly: true
           {{- with .Values.resources }}
           resources:
@@ -79,6 +92,15 @@ spec:
         - name: config
           configMap:
             name: {{ include "user.fullname" . }}
+
+        {{- if .Values.secret.enabled }}
+        - name: secret-config
+          secret:
+            secretName: {{ required "secret.existingSecret must be set when secret.enabled=true" .Values.secret.existingSecret }}
+            items:
+              - key: {{ .Values.secret.keys.config }}
+                path: config.yaml
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
