@@ -8,8 +8,5 @@ metadata:
 
 data:
 
-  config.yaml: |
-{{ .Values.configs.application | indent 4 }}
-
   registry.yaml: |
 {{ .Values.configs.registry | indent 4 }}

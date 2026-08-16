@@ -47,7 +47,7 @@ configs:
     data:
       database:
         driver: mysql
-        source: root:dangerous@tcp(mysql:3306)/test?parseTime=true
+        
 
       redis:
         addr: redis:6379
@@ -68,6 +68,14 @@ initContainers:
 
   consulServices:
     - beer.user.service
+
+secret:
+  enabled: true
+
+  existingSecret: beer-shop-shop-admin-config
+
+  keys:
+    config: config.yaml
 
 resources:
   requests:

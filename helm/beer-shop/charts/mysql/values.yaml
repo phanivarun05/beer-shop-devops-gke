@@ -23,8 +23,8 @@ service:
   port: 3306
 
 auth:
-  # This sets the root password for the mysql database more information can be found here: https://hub.docker.com/_/mysql
-  rootPassword: "dangerous"
+  existingSecret: mysql
+  existingSecretKey: mysql-root-password
 
 persistence:
   # This sets the persistence for the mysql database more information can be found here: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
@@ -38,7 +38,6 @@ persistence:
 
 
 mysql:
-  rootPassword: dangerous
 
   database: test
 
