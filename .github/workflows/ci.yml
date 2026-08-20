@@ -39,8 +39,48 @@ jobs:
       - name: Set up Helm
         uses: azure/setup-helm@v4
 
-      - name: Lint Helm chart
-        run: helm lint helm/beer-shop
+      - name: Setup Kubeconform
+        uses: bmuschko/setup-kubeconform@v1
+        with:
+          kubeconform-version: '0.6.7'
 
-      - name: Validate Helm dependencies
-        run: helm dependency list helm/beer-shop
+      - name: Validate Helm and Kubernetes Manifests
+        run: make -f Makefile.helm helm-validate
+
+  docker-build:
+    name: Docker Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build all Docker images
+        run: make build-docker
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    needs: docker-build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget -qO- https://aquasecurity.github.io/trivy-repo/deb/public.key \
+            | sudo gpg --dearmor -o /usr/share/keyrings/trivy.gpg
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" \
+            | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
+
+      - name: Build Docker images
+        run: make build-backend
+
+      - name: Run security scans
+        run: make security-scan

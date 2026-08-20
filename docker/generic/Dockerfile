@@ -2,7 +2,7 @@
 # Stage 1 : Builder
 # ==========================
 
-FROM golang:1.24-alpine AS builder
+FROM golang:1.25-alpine AS builder
 
 #Set the Build Arguments
 ARG SERVICE_PATH=catalog/service

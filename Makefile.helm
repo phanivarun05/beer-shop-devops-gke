@@ -215,3 +215,27 @@ install-beer-shop-prod:
 	helm/beer-shop \
 	-f helm/beer-shop/values-prod.yaml \
 	-n beer-shop
+
+# ============================================================
+# CI Validation
+# ============================================================
+
+helm-lint:
+	$(HELM) lint helm/beer-shop
+
+helm-template:
+	$(HELM) template beer-shop helm/beer-shop \
+		-f helm/beer-shop/values-dev.yaml \
+		> /tmp/beer-shop-rendered.yaml
+
+# ============================================================
+# Kubernetes Manifest Validation
+# ============================================================
+
+k8s-validate:
+	$(HELM) template beer-shop helm/beer-shop \
+		-f helm/beer-shop/values-dev.yaml \
+		| kubeconform -strict -summary
+
+helm-validate: helm-lint helm-template k8s-validate
+	@echo "Helm and Kubernetes validation passed"
