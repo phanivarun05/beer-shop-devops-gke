@@ -103,6 +103,10 @@ GO_SERVICES = \
 	shop-interface \
 	shop-admin
 
+WEB_SERVICES = \
+	web-shop \
+	web-admin
+
 TRIVY := trivy
 SECURITY_SEVERITY := HIGH,CRITICAL
 
@@ -113,6 +117,15 @@ security-scan:
 	@echo "========================================"
 
 	@for service in $(GO_SERVICES); do \
+		echo ""; \
+		echo "Scanning $(IMAGE_PREFIX)/$$service:$(TAG)"; \
+		$(TRIVY) image \
+			--severity $(SECURITY_SEVERITY) \
+			--exit-code 1 \
+			$(IMAGE_PREFIX)/$$service:$(TAG); \
+	done
+
+	@for service in $(WEB_SERVICES); do \
 		echo ""; \
 		echo "Scanning $(IMAGE_PREFIX)/$$service:$(TAG)"; \
 		$(TRIVY) image \

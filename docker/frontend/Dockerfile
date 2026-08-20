@@ -30,7 +30,7 @@ RUN yarn build
 # Stage 2 : Runtime
 # ==========================
 
-FROM nginx:1.25-alpine
+FROM nginx:alpine
 
 # Copy built application from builder
 COPY --from=builder /app/build/ /usr/share/nginx/html/

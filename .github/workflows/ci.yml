@@ -80,7 +80,7 @@ jobs:
           sudo apt-get install -y trivy
 
       - name: Build Docker images
-        run: make build-backend
+        run: make build-docker
 
       - name: Run security scans
         run: make security-scan
