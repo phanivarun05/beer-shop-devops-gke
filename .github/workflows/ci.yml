@@ -56,7 +56,22 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build all Docker images
-        run: make build-docker
+        run: make build-docker TAG="sha-${GITHUB_SHA::7}"
+
+      - name: Save Docker images
+        run: |
+          mkdir -p docker-images
+          docker save $(docker images --format '{{.Repository}}:{{.Tag}}' \
+            | grep '^beer-shop/' \
+            | grep ":sha-${GITHUB_SHA::7}$") \
+            -o docker-images/beer-shop-images.tar
+
+      - name: Upload Docker images
+        uses: actions/upload-artifact@v4
+        with:
+          name: beer-shop-images-${{ github.sha }}
+          path: docker-images/beer-shop-images.tar
+          retention-days: 1
 
   security-scan:
     name: Security Scan
@@ -79,8 +94,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y trivy
 
-      - name: Build Docker images
-        run: make build-docker
+      - name: Download Docker images
+        uses: actions/download-artifact@v4
+        with:
+          name: beer-shop-images-${{ github.sha }}
+          path: docker-images
+
+      - name: Load Docker images
+        run: docker load -i docker-images/beer-shop-images.tar
 
       - name: Run security scans
-        run: make security-scan
+        run: make security-scan TAG="sha-${GITHUB_SHA::7}"

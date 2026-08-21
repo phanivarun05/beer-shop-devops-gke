@@ -7,7 +7,7 @@ DOCKERFILE_BACKEND := docker/generic/Dockerfile
 DOCKERFILE_FRONTEND := docker/frontend/Dockerfile
 
 IMAGE_PREFIX := beer-shop
-TAG := latest
+TAG ?= latest
 
 .PHONY: \
 	catalog user payment order shipping courier cart \
