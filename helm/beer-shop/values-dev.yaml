@@ -76,7 +76,7 @@ redis:
 # ==========================================================
 
 catalog:
-  replicaCount: 2
+  replicaCount: 3
   resources:
     requests:
       cpu: 50m
