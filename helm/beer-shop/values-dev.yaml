@@ -76,6 +76,8 @@ redis:
 # ==========================================================
 
 catalog:
+  image:
+    tag: "sha-test123"
   replicaCount: 3
   resources:
     requests:
@@ -86,6 +88,8 @@ catalog:
       memory: 128Mi
 
 user:
+  image:
+    tag: "latest"
   replicaCount: 1
   resources:
     requests:
@@ -96,6 +100,8 @@ user:
       memory: 128Mi
 
 payment:
+  image:
+    tag: "latest"
   replicaCount: 1
   resources:
     requests:
@@ -106,6 +112,8 @@ payment:
       memory: 128Mi
 
 order:
+  image:
+    tag: "latest"
   replicaCount: 1
   resources:
     requests:
@@ -116,6 +124,8 @@ order:
       memory: 128Mi
 
 shipping:
+  image:
+    tag: "latest"
   replicaCount: 1
   resources:
     requests:
@@ -126,6 +136,8 @@ shipping:
       memory: 128Mi
 
 courier:
+  image:
+    tag: "latest"
   replicaCount: 1
   resources:
     requests:
@@ -136,6 +148,8 @@ courier:
       memory: 128Mi
 
 cart:
+  image:
+    tag: "latest"
   replicaCount: 1
   resources:
     requests:
@@ -146,6 +160,8 @@ cart:
       memory: 128Mi
 
 shop-interface:
+  image:
+    tag: "latest"
   replicaCount: 1
   resources:
     requests:
@@ -156,6 +172,8 @@ shop-interface:
       memory: 128Mi
 
 shop-admin:
+  image:
+    tag: "latest"
   replicaCount: 1
   resources:
     requests:
@@ -170,6 +188,8 @@ shop-admin:
 # ==========================================================
 
 web-shop:
+  image:
+    tag: "latest"
   replicaCount: 1
   resources:
     requests:
@@ -180,6 +200,8 @@ web-shop:
       memory: 128Mi
 
 web-admin:
+  image:
+    tag: "latest"
   replicaCount: 1
   resources:
     requests:

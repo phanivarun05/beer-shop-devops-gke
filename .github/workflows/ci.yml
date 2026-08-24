@@ -150,3 +150,26 @@ jobs:
           done
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+
+      - name: Update Helm image tags
+        run: |
+          TAG="sha-${GITHUB_SHA::7}"
+
+          services=(
+            catalog
+            user
+            payment
+            order
+            shipping
+            courier
+            cart
+            shop-interface
+            shop-admin
+            web-shop
+            web-admin
+          )
+
+          for service in "${services[@]}"; do
+            sed -i "/^${service}:/,/^[^[:space:]]/ s/^    tag: .*/    tag: \"${TAG}\"/" \
+              helm/beer-shop/values-dev.yaml
+          done
