@@ -77,7 +77,7 @@ redis:
 
 catalog:
   image:
-    tag: "sha-test123"
+    tag: "latest"
   replicaCount: 3
   resources:
     requests:
