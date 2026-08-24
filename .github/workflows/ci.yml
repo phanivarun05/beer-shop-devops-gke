@@ -105,3 +105,48 @@ jobs:
 
       - name: Run security scans
         run: make security-scan TAG="sha-${GITHUB_SHA::7}"
+
+  docker-publish:
+    name: Publish Docker Images
+    runs-on: ubuntu-latest
+
+    needs:
+      - docker-build
+      - security-scan
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Download Docker images
+        uses: actions/download-artifact@v4
+        with:
+          name: beer-shop-images-${{ github.sha }}
+          path: docker-images
+
+      - name: Load Docker images
+        run: docker load -i docker-images/beer-shop-images.tar
+
+      - name: Push Docker images
+        run: |
+          TAG="sha-${GITHUB_SHA::7}"
+
+          for service in \
+            catalog user payment order shipping courier cart \
+            shop-interface shop-admin web-shop web-admin
+          do
+            docker tag \
+              "beer-shop/${service}:${TAG}" \
+              "docker.io/${DOCKERHUB_USERNAME}/beer-shop-${service}:${TAG}"
+
+            docker push \
+              "docker.io/${DOCKERHUB_USERNAME}/beer-shop-${service}:${TAG}"
+          done
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
