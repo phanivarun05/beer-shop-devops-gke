@@ -173,3 +173,16 @@ jobs:
             sed -i "/^${service}:/,/^[^[:space:]]/ s/^    tag: .*/    tag: \"${TAG}\"/" \
               helm/beer-shop/values-dev.yaml
           done
+
+      - name: Commit Helm image tag updates
+        run: |
+          TAG="sha-${GITHUB_SHA::7}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add helm/beer-shop/values-dev.yaml
+          git commit -m "chore(gitops): update images to ${TAG}"
+
+      - name: Push Helm image tag updates
+        run: git push
