@@ -140,16 +140,29 @@ jobs:
         run: |
           TAG="sha-${GITHUB_SHA::7}"
 
-          for service in \
-            catalog user payment order shipping courier cart \
-            shop-interface shop-admin web-shop web-admin
-          do
+          declare -A images=(
+            [catalog]="beer-shop-catalog"
+            [user]="beer-shop-user"
+            [payment]="beer-shop-payment"
+            [order]="beer-shop-order"
+            [shipping]="beer-shop-shipping"
+            [courier]="beer-shop-courier"
+            [cart]="beer-shop-cart"
+            [shop-interface]="beer-shop-shop-interface"
+            [shop-admin]="beer-shop-shop-admin"
+            [web-shop]="beer-shop-shop"
+            [web-admin]="beer-shop-admin"
+          )
+
+          for service in "${!images[@]}"; do
+            repository="${images[$service]}"
+
             docker tag \
               "beer-shop/${service}:${TAG}" \
-              "docker.io/${DOCKERHUB_USERNAME}/beer-shop-${service}:${TAG}"
+              "docker.io/${DOCKERHUB_USERNAME}/${repository}:${TAG}"
 
             docker push \
-              "docker.io/${DOCKERHUB_USERNAME}/beer-shop-${service}:${TAG}"
+              "docker.io/${DOCKERHUB_USERNAME}/${repository}:${TAG}"
           done
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
