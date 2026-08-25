@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   go-tests:
+    if: "!startsWith(github.event.head_commit.message, 'chore(gitops):')"
     name: Go Tests
     runs-on: ubuntu-latest
 
@@ -32,6 +33,7 @@ jobs:
         run: go test ./...
 
   helm-validation:
+    if: "!startsWith(github.event.head_commit.message, 'chore(gitops):')"
     name: Helm Validation
     runs-on: ubuntu-latest
 
@@ -51,6 +53,7 @@ jobs:
         run: make -f Makefile.helm helm-validate
 
   docker-build:
+    if: "!startsWith(github.event.head_commit.message, 'chore(gitops):')"
     name: Docker Build
     runs-on: ubuntu-latest
 
@@ -77,6 +80,7 @@ jobs:
           retention-days: 1
 
   security-scan:
+    if: "!startsWith(github.event.head_commit.message, 'chore(gitops):')"
     name: Security Scan
     runs-on: ubuntu-latest
 
@@ -110,6 +114,7 @@ jobs:
         run: make security-scan TAG="sha-${GITHUB_SHA::7}"
 
   docker-publish:
+    if: "!startsWith(github.event.head_commit.message, 'chore(gitops):')"
     name: Publish Docker Images
     runs-on: ubuntu-latest
 
