@@ -32,6 +32,8 @@ RUN yarn build
 
 FROM nginx:alpine
 
+RUN apk upgrade --no-cache
+
 # Copy built application from builder
 COPY --from=builder /app/build/ /usr/share/nginx/html/
 

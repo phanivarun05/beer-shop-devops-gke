@@ -28,6 +28,8 @@ RUN go build -o /app/server ./app/${SERVICE_PATH}/cmd/server
 
 FROM alpine:3.22
 
+RUN apk upgrade --no-cache
+
 RUN apk add --no-cache ca-certificates
 
 # Set the Build Arguments
