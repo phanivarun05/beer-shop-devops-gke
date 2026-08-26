@@ -48,6 +48,9 @@ jaeger:
 catalog:
   enabled: true
   replicaCount: 3
+  
+  image:
+    tag: "sha-XXXXXXXX"
 
   resources:
     requests:
@@ -70,6 +73,9 @@ catalog:
 user:
   enabled: true
   replicaCount: 3
+  
+  image:
+    tag: "sha-XXXXXXXX"
 
   resources:
     requests:
@@ -92,6 +98,9 @@ user:
 payment:
   enabled: true
   replicaCount: 3
+  
+  image:
+    tag: "sha-XXXXXXXX"
 
   resources:
     requests:
@@ -116,6 +125,9 @@ order:
   enabled: true
   replicaCount: 3
   
+  image:
+    tag: "sha-XXXXXXXX"
+
   resources:
     requests:
       cpu: 100m
@@ -138,6 +150,9 @@ shipping:
   enabled: true
   replicaCount: 2
   
+  image:
+    tag: "sha-XXXXXXXX"
+
   resources:
     requests:
       cpu: 100m
@@ -160,6 +175,9 @@ courier:
   enabled: true
   replicaCount: 2
   
+  image:
+    tag: "sha-XXXXXXXX"
+
   resources:
     requests:
       cpu: 100m
@@ -182,6 +200,9 @@ cart:
   enabled: true
   replicaCount: 3
   
+  image:
+    tag: "sha-XXXXXXXX"
+
   resources:
     requests:
       cpu: 100m
@@ -204,6 +225,9 @@ shop-interface:
   enabled: true
   replicaCount: 3
   
+  image:
+    tag: "sha-XXXXXXXX"
+
   resources:
     requests:
       cpu: 100m
@@ -226,6 +250,9 @@ shop-admin:
   enabled: true
   replicaCount: 2
   
+  image:
+    tag: "sha-XXXXXXXX"
+
   resources:
     requests:
       cpu: 100m
@@ -252,10 +279,16 @@ web-shop:
   enabled: true
   replicaCount: 3
 
+  image:
+    tag: "sha-XXXXXXXX"
+
 web-admin:
   enabled: true
   replicaCount: 2
 
+  image:
+    tag: "sha-XXXXXXXX"
+    
 # ==========================================================
 # Ingress
 # ==========================================================
