@@ -77,7 +77,7 @@ redis:
 
 catalog:
   image:
-    tag: "sha-8981ec1"
+    tag: "sha-c438515"
   replicaCount: 3
   resources:
     requests:
@@ -89,7 +89,7 @@ catalog:
 
 user:
   image:
-    tag: "sha-8981ec1"
+    tag: "sha-c438515"
   replicaCount: 1
   resources:
     requests:
@@ -101,7 +101,7 @@ user:
 
 payment:
   image:
-    tag: "sha-8981ec1"
+    tag: "sha-c438515"
   replicaCount: 1
   resources:
     requests:
@@ -113,7 +113,7 @@ payment:
 
 order:
   image:
-    tag: "sha-8981ec1"
+    tag: "sha-c438515"
   replicaCount: 1
   resources:
     requests:
@@ -125,7 +125,7 @@ order:
 
 shipping:
   image:
-    tag: "sha-8981ec1"
+    tag: "sha-c438515"
   replicaCount: 1
   resources:
     requests:
@@ -137,7 +137,7 @@ shipping:
 
 courier:
   image:
-    tag: "sha-8981ec1"
+    tag: "sha-c438515"
   replicaCount: 1
   resources:
     requests:
@@ -149,7 +149,7 @@ courier:
 
 cart:
   image:
-    tag: "sha-8981ec1"
+    tag: "sha-c438515"
   replicaCount: 1
   resources:
     requests:
@@ -161,7 +161,7 @@ cart:
 
 shop-interface:
   image:
-    tag: "sha-8981ec1"
+    tag: "sha-c438515"
   replicaCount: 1
   resources:
     requests:
@@ -173,7 +173,7 @@ shop-interface:
 
 shop-admin:
   image:
-    tag: "sha-8981ec1"
+    tag: "sha-c438515"
   replicaCount: 1
   resources:
     requests:
@@ -189,7 +189,7 @@ shop-admin:
 
 web-shop:
   image:
-    tag: "sha-8981ec1"
+    tag: "sha-c438515"
   replicaCount: 1
   resources:
     requests:
@@ -201,7 +201,7 @@ web-shop:
 
 web-admin:
   image:
-    tag: "sha-8981ec1"
+    tag: "sha-c438515"
   replicaCount: 1
   resources:
     requests:
