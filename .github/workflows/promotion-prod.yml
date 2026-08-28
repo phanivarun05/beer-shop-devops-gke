@@ -1,0 +1,114 @@
+name: Promote Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Immutable image tag to promote (e.g. sha-246fb72)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  promote:
+    name: Promote Image to Production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate image tag
+        run: |
+          TAG="${{ inputs.image_tag }}"
+
+          if [[ ! "$TAG" =~ ^sha-[a-f0-9]{7}$ ]]; then
+            echo "Invalid image tag: $TAG"
+            echo "Expected format: sha-XXXXXXX"
+            exit 1
+          fi
+
+          echo "Promoting image tag: $TAG"
+
+      - name: Verify images exist
+        run: |
+          TAG="${{ inputs.image_tag }}"
+
+          declare -A images=(
+            [catalog]="beer-shop-catalog"
+            [user]="beer-shop-user"
+            [payment]="beer-shop-payment"
+            [order]="beer-shop-order"
+            [shipping]="beer-shop-shipping"
+            [courier]="beer-shop-courier"
+            [cart]="beer-shop-cart"
+            [shop-interface]="beer-shop-shop-interface"
+            [shop-admin]="beer-shop-shop-admin"
+            [web-shop]="beer-shop-shop"
+            [web-admin]="beer-shop-admin"
+          )
+
+          for service in "${!images[@]}"; do
+            repository="${images[$service]}"
+            image="docker.io/${DOCKERHUB_USERNAME}/${repository}:${TAG}"
+
+            echo "Checking ${image}"
+
+            if ! docker manifest inspect "${image}" > /dev/null 2>&1; then
+              echo "ERROR: Image does not exist: ${image}"
+              exit 1
+            fi
+          done
+
+          echo "All production images exist."
+
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+
+      - name: Update production image tags
+        run: |
+          TAG="${{ inputs.image_tag }}"
+
+          services=(
+            catalog
+            user
+            payment
+            order
+            shipping
+            courier
+            cart
+            shop-interface
+            shop-admin
+            web-shop
+            web-admin
+          )
+
+          for service in "${services[@]}"; do
+            sed -i "/^${service}:/,/^[^[:space:]]/ s/^    tag: .*/    tag: \"${TAG}\"/" \
+              helm/beer-shop/values-prod.yaml
+          done
+
+      - name: Validate production Helm manifests
+        run: |
+          make -f Makefile.helm helm-validate
+
+      - name: Commit production promotion
+        run: |
+          TAG="${{ inputs.image_tag }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add helm/beer-shop/values-prod.yaml
+
+          if git diff --cached --quiet; then
+            echo "Production is already using ${TAG}"
+            exit 0
+          fi
+
+          git commit -m "chore(gitops): promote ${TAG} to production"
+
+      - name: Push production promotion
+        run: git push
