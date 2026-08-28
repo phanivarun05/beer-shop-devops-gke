@@ -50,7 +50,7 @@ catalog:
   replicaCount: 3
   
   image:
-    tag: "sha-XXXXXXXX"
+    tag: "sha-069bcc1"
 
   resources:
     requests:
@@ -75,7 +75,7 @@ user:
   replicaCount: 3
   
   image:
-    tag: "sha-XXXXXXXX"
+    tag: "sha-069bcc1"
 
   resources:
     requests:
@@ -100,7 +100,7 @@ payment:
   replicaCount: 3
   
   image:
-    tag: "sha-XXXXXXXX"
+    tag: "sha-069bcc1"
 
   resources:
     requests:
@@ -126,7 +126,7 @@ order:
   replicaCount: 3
   
   image:
-    tag: "sha-XXXXXXXX"
+    tag: "sha-069bcc1"
 
   resources:
     requests:
@@ -151,7 +151,7 @@ shipping:
   replicaCount: 2
   
   image:
-    tag: "sha-XXXXXXXX"
+    tag: "sha-069bcc1"
 
   resources:
     requests:
@@ -176,7 +176,7 @@ courier:
   replicaCount: 2
   
   image:
-    tag: "sha-XXXXXXXX"
+    tag: "sha-069bcc1"
 
   resources:
     requests:
@@ -201,7 +201,7 @@ cart:
   replicaCount: 3
   
   image:
-    tag: "sha-XXXXXXXX"
+    tag: "sha-069bcc1"
 
   resources:
     requests:
@@ -226,7 +226,7 @@ shop-interface:
   replicaCount: 3
   
   image:
-    tag: "sha-XXXXXXXX"
+    tag: "sha-069bcc1"
 
   resources:
     requests:
@@ -251,7 +251,7 @@ shop-admin:
   replicaCount: 2
   
   image:
-    tag: "sha-XXXXXXXX"
+    tag: "sha-069bcc1"
 
   resources:
     requests:
@@ -280,14 +280,14 @@ web-shop:
   replicaCount: 3
 
   image:
-    tag: "sha-XXXXXXXX"
+    tag: "sha-069bcc1"
 
 web-admin:
   enabled: true
   replicaCount: 2
 
   image:
-    tag: "sha-XXXXXXXX"
+    tag: "sha-069bcc1"
     
 # ==========================================================
 # Ingress
