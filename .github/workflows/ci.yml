@@ -172,9 +172,17 @@ jobs:
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
 
-      - name: Update Helm image tags
+      - name: Update GitOps repository
+        env:
+          GITOPS_TOKEN: ${{ secrets.GITOPS_TOKEN }}
         run: |
           TAG="sha-${GITHUB_SHA::7}"
+
+          git clone \
+            "https://x-access-token:${GITOPS_TOKEN}@github.com/phanivarun05/beer-shop-gitops-gke.git" \
+            gitops
+
+          cd gitops
 
           services=(
             catalog
@@ -195,15 +203,15 @@ jobs:
               helm/beer-shop/values-dev.yaml
           done
 
-      - name: Commit Helm image tag updates
-        run: |
-          TAG="sha-${GITHUB_SHA::7}"
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add helm/beer-shop/values-dev.yaml
-          git commit -m "chore(gitops): update images to ${TAG}"
 
-      - name: Push Helm image tag updates
-        run: git push
+          if git diff --cached --quiet; then
+            echo "No GitOps changes detected."
+            exit 0
+          fi
+
+          git commit -m "chore(gitops): update images to ${TAG}"
+          git push origin main
