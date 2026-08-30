@@ -9,7 +9,7 @@ on:
         type: string
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   promote:
@@ -17,14 +17,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Kubeconform
-        uses: bmuschko/setup-kubeconform@v1
-        with:
-          kubeconform-version: '0.6.7'
-
       - name: Validate image tag
         run: |
           TAG="${{ inputs.image_tag }}"
@@ -72,7 +64,24 @@ jobs:
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
 
+      - name: Checkout GitOps repository
+        env:
+          GITOPS_TOKEN: ${{ secrets.GITOPS_TOKEN }}
+        run: |
+          git clone \
+            "https://x-access-token:${GITOPS_TOKEN}@github.com/phanivarun05/beer-shop-gitops-gke.git" \
+            gitops
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: Setup Kubeconform
+        uses: bmuschko/setup-kubeconform@v1
+        with:
+          kubeconform-version: '0.6.7'
+
       - name: Update production image tags
+        working-directory: gitops
         run: |
           TAG="${{ inputs.image_tag }}"
 
@@ -96,10 +105,12 @@ jobs:
           done
 
       - name: Validate production Helm manifests
+        working-directory: gitops
         run: |
           make -f Makefile.helm helm-validate
 
       - name: Commit production promotion
+        working-directory: gitops
         run: |
           TAG="${{ inputs.image_tag }}"
 
@@ -116,4 +127,7 @@ jobs:
           git commit -m "chore(gitops): promote ${TAG} to production"
 
       - name: Push production promotion
-        run: git push
+        working-directory: gitops
+        env:
+          GITOPS_TOKEN: ${{ secrets.GITOPS_TOKEN }}
+        run: git push origin main
